@@ -4,6 +4,8 @@ import os
 
 
 class YoutubeDownload:
+    DOWNLOAD_FOLDER = os.path.expanduser("~")+"/Downloads/"
+
     def __init__(self, url):
         self.__url = url
 
@@ -13,11 +15,14 @@ class YoutubeDownload:
         try:
             url = YouTube(self.__url)
             audio = url.streams.filter(only_audio=True, file_extension="mp4")
-            audio[0].download("/Users/fernando/Downloads")
+            audio[0].download(YoutubeDownload.DOWNLOAD_FOLDER)
+            os.rename(YoutubeDownload.DOWNLOAD_FOLDER + url.title + r'.mp4',
+                      YoutubeDownload.DOWNLOAD_FOLDER + url.title + r'.mp3')
             print('Successfuly download!')
             return 0
         except Exception as e:
-            print('Url invalid!. Type one url valid please.')
+            print(e)
+            # print('Url invalid!. Type one url valid please.')
             return 1
 
     def download_video(self, quality):
@@ -72,7 +77,7 @@ class YoutubeDownload:
         audio = ffmpeg.input(f".cache/audio.mp4")
 
         out = ffmpeg.output(
-            video, audio, f"/Users/fernando/Downloads/{name}.mp4", vcodec="copy", acodec="aac", strict="experimental")
+            video, audio, f"{YoutubeDownload.DOWNLOAD_FOLDER}{name}.mp4", vcodec="copy", acodec="aac", strict="experimental")
         out.run()
 
     @classmethod

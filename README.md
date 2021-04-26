@@ -2,13 +2,17 @@
 
 If you wanna a terminal too for download video or audio from YouTube, this project will help you.
 
+> _NOTE:_ _This script **only** works on uni systems_
+
 ## Installation
 
 Follow the next steps:
 
-1.  Git clone this repository
+1.  Git clone this repository: `git clone https://github.com/devrrior/youtube-downloader-cli.git`
 1.  Install the requirements: `pip install -r requirements.txt`
 1.  That's done!
+
+> **NOTE**: If your downloads folder **isn't called Downloads**, just edit the file **youtube.py** and in the variable **DOWNLOAD_FOLDER**, change **Downloads** to the name of your folder.
 
 ## Usage
 
@@ -37,4 +41,4 @@ Follow the next steps:
 
 - **Make a script for integrate this script in the bash.**
 - **Hide the log of ffmpeg.**
-- **Put the general path where downloads are stored so anyone can use it.**
+- **Make this script work on windows.**
