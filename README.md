@@ -2,7 +2,7 @@
 
 If you wanna a terminal too for download video or audio from YouTube, this project will help you.
 
-> _NOTE:_ _This script **only** works on uni systems_
+> _NOTE:_ _This script **only** works on unix systems_
 
 ## Installation
 
