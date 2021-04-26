@@ -2,6 +2,14 @@
 
 If you wanna a terminal too for download video or audio from YouTube, this project will help you.
 
+## Installation
+
+Follow the next steps:
+
+1.  Git clone this repository
+1.  Install the requirements: `pip install -r requirements.txt`
+1.  That's done!
+
 ## Usage
 
 ### Arguments
