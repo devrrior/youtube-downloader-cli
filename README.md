@@ -1,4 +1,4 @@
-# <img height="32" width="32" src="https://cdn.jsdelivr.net/npm/simple-icons@v4/icons/youtube.svg" /> YouTube Downloader CLI
+# <img height="32" width="32" src="https://cdn.jsdelivr.net/npm/simple-icons@v4/icons/youtube.svg" /> Downtube CLI
 
 If you wanna a terminal too for download video or audio from YouTube, this project will help you.
 
@@ -6,13 +6,13 @@ If you wanna a terminal too for download video or audio from YouTube, this proje
 
 ## Installation
 
-Follow the next steps:
+Install In One Command!
 
-1.  Git clone this repository: `git clone https://github.com/devrrior/youtube-downloader-cli.git`
-1.  Install the requirements: `pip install -r requirements.txt`
-1.  That's done!
+```
+bash <(curl -s https://raw.githubusercontent.com/devrrior/youtube-downloader-cli/master/install.sh)
+```
 
-> **NOTE**: If your downloads folder **isn't called Downloads**, just edit the file **youtube.py** and in the variable **DOWNLOAD_FOLDER**, change **Downloads** to the name of your folder.
+> **NOTE**: If your downloads folder **isn't called Downloads**, just edit the file **downtube** and in the variable **DOWNLOAD_FOLDER**, change **Downloads** to the name of your folder.
 
 ## Usage
 
@@ -39,6 +39,5 @@ Follow the next steps:
 
 ## TODO
 
-- **Make a script for integrate this script in the bash.**
 - **Hide the log of ffmpeg.**
 - **Make this script work on windows.**
