@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 import argparse
 import ffmpeg
 import os
@@ -24,8 +25,7 @@ class YoutubeDownload:
             print("Successfuly download!")
             return 0
         except Exception as e:
-            print(e)
-            # print("Url invalid!. Type one url valid please.")
+            print("Url invalid!. Type one url valid please.")
             return 1
 
     def download_video(self, quality):
@@ -36,37 +36,44 @@ class YoutubeDownload:
             return 1
 
         title_video = YoutubeDownload.normalize_video_title(url.title)
-        print(title_video)
         quality = f"{quality}p"
+
         try:
             YoutubeDownload.download_video_and_audio(url, quality)
         except Exception as e:
-            print("Invalid quality, the valid qualities are the following:")
-            qualities_of_video = url.streams.filter(
-                adaptive=True, file_extension="mp4", only_video=True)
-
-            qualities = ""
-            last_resolution = ""
-            last_fps = 0
-            for quality in qualities_of_video:
-
-                if last_resolution == quality.resolution:
-                    if last_fps == quality.fps:
-                        pass
-                    else:
-                        qualities += f"{quality.resolution}    "
-                        last_resolution = quality.resolution
-                        last_fps = quality.fps
-                else:
-                    qualities += f"{quality.resolution}    "
-                    last_resolution = quality.resolution
-                    last_fps = quality.fps
-            print(qualities)
+            print(self.error_url(url, "Invalid quality"))
             return 1
 
         YoutubeDownload.merge_video_and_audio(title_video)
         YoutubeDownload.delete_cache()
         print("Download successful!")
+
+    def get_url(self):
+        return self.__url
+
+    @classmethod
+    def error_url(cls, url, message):
+        qualities_of_video = url.streams.filter(
+            adaptive=True, file_extension="mp4", only_video=True)
+        qualities = ""
+        last_resolution = ""
+        last_fps = 0
+        for quality in qualities_of_video:
+
+            if last_resolution == quality.resolution:
+                if last_fps == quality.fps:
+                    pass
+                else:
+                    qualities += f"{quality.resolution}    "
+                    last_resolution = quality.resolution
+                    last_fps = quality.fps
+            else:
+                qualities += f"{quality.resolution}    "
+                last_resolution = quality.resolution
+                last_fps = quality.fps
+
+        return f"""{message}, the valid qualities are the following:
+{qualities}"""
 
     @classmethod
     def normalize_video_title(cls, title):
@@ -136,7 +143,9 @@ def main():
         return 1
 
     if args.video and args.quality is None:
-        print("Please type the quality")
+        video_object = YoutubeDownload((args.url).replace("'", ""))
+        url = YouTube(video_object.get_url())
+        print(YoutubeDownload.error_url(url,"Please type the quality"))
         return 1
 
     if args.video and args.quality:
