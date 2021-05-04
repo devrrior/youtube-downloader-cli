@@ -4,11 +4,11 @@ import argparse
 import ffmpeg
 import os
 from pytube import YouTube
+from gi.repository import GLib
 
 
 class Downtube:
-    DOWNLOAD_FOLDER = os.path.expanduser("~")+"/Downloads/"
-
+    DOWNLOAD_FOLDER = GLib.get_user_special_dir(GLib.UserDirectory.DIRECTORY_DOWNLOAD)
     def __init__(self, url):
         try:
             self.__pytube_object = YouTube(url)
@@ -97,19 +97,6 @@ class Downtube:
         os.remove(".cache/video.mp4")
         os.remove(".cache/audio.mp4")
 
-    @classmethod
-    def delete_downtube(cls):
-        confirmation = input("Are you sure to delete Downtube? ")
-
-        if confirmation.lower() == "yes":
-            os.remove(os.path.expanduser("~")+ "/.local/bin")
-            print("Downtube deleted!")
-            quit()
-        else:
-            print("Deletion canceled!")
-            quit()
-
-
 def cli():
     parser = argparse.ArgumentParser(
         prog="Youtube Downloader",
@@ -129,11 +116,6 @@ def cli():
         "--quality", "-q",
         type=int,
         help="Quality of video"
-    )
-    parser.add_argument(
-        "--delete", "-d",
-        action="store_true",
-        help="Delete downtube"
     )
     parser.add_argument(
         "url",
