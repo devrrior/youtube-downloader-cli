@@ -9,10 +9,8 @@ If you wanna a terminal too for download video or audio from YouTube, this proje
 Install In One Command!
 
 ```
-bash <(curl -s https://raw.githubusercontent.com/devrrior/youtube-downloader-cli/master/install.sh)
+bash <(curl -s https://raw.githubusercontent.com/devrrior/youtube-downloader-cli/master/install)
 ```
-
-> **NOTE**: If your downloads folder **isn't called Downloads**, just edit the file **downtube** and in the variable **DOWNLOAD_FOLDER**, change **Downloads** to the name of your folder.
 
 ## Usage
 
@@ -46,6 +44,13 @@ bash <(curl -s https://raw.githubusercontent.com/devrrior/youtube-downloader-cli
   ```
 
   In this example I call the verbose `--audio` and type the argument url in quotes.
+
+## Uninstall
+
+- For uninstall Downtube, just run this command:
+  ```
+  bash <(curl -s https://raw.githubusercontent.com/devrrior/youtube-downloader-cli/master/uninstall)
+  ```
 
 ## TODO
 
