@@ -6,54 +6,40 @@ import os
 from pytube import YouTube
 
 
-class YoutubeDownload:
+class Downtube:
     DOWNLOAD_FOLDER = os.path.expanduser("~")+"/Downloads/"
 
     def __init__(self, url):
-        self.__url = url
+        try:
+            self.__pytube_object = YouTube(url)
+        except Exception as e:
+            print("Url invalid!. Type one url valid please.")
+            return 1
 
     # Functions
 
     def download_audio(self):
-        try:
-            url = YouTube(self.__url)
-            title_video = YoutubeDownload.normalize_video_title(url.title)
-            audio = url.streams.filter(only_audio=True, file_extension="mp4")
-            audio[0].download(YoutubeDownload.DOWNLOAD_FOLDER)
-            os.rename(YoutubeDownload.DOWNLOAD_FOLDER + title_video + r".mp4",
-                      YoutubeDownload.DOWNLOAD_FOLDER + title_video + r".mp3")
-            print("Successfuly download!")
-            return 0
-        except Exception as e:
-            print("Url invalid!. Type one url valid please.")
-            return 1
+        pytube_object = self.__pytube_object
+        title_video = self.normalize_video_title()
+        audio = pytube_object.streams.filter(only_audio=True, file_extension="mp4").first()
+        audio.download(Downtube.DOWNLOAD_FOLDER)
+        os.rename(Downtube.DOWNLOAD_FOLDER + title_video + r".mp4",
+                  Downtube.DOWNLOAD_FOLDER + title_video + r".mp3")
+        print("Successfuly download!")
+        return 0
 
     def download_video(self, quality):
-        try:
-            url = YouTube(self.__url)
-        except Exception as e:
-            print("Url invalid!. Type one url valid please.")
-            return 1
-
-        title_video = YoutubeDownload.normalize_video_title(url.title)
+        pytube_object = self.__pytube_object
+        title_video = self.normalize_video_title()
         quality = f"{quality}p"
-
-        try:
-            YoutubeDownload.download_video_and_audio(url, quality)
-        except Exception as e:
-            print(self.error_url(url, "Invalid quality"))
-            return 1
-
-        YoutubeDownload.merge_video_and_audio(title_video)
-        YoutubeDownload.delete_cache()
+        self.download_video_and_audio(quality)
+        Downtube.merge_video_and_audio(title_video)
+        Downtube.delete_cache()
         print("Download successful!")
 
-    def get_url(self):
-        return self.__url
-
-    @classmethod
-    def error_url(cls, url, message):
-        qualities_of_video = url.streams.filter(
+    def error_url(self, message):
+        pytube_object = self.__pytube_object
+        qualities_of_video = pytube_object.streams.filter(
             adaptive=True, file_extension="mp4", only_video=True)
         qualities = ""
         last_resolution = ""
@@ -75,22 +61,27 @@ class YoutubeDownload:
         return f"""{message}, the valid qualities are the following:
 {qualities}"""
 
-    @classmethod
-    def normalize_video_title(cls, title):
+    def normalize_video_title(self):
+        pytube_object = self.__pytube_object
+        title_video = pytube_object.title
         # Change /
-        normalized_title = title.replace("/", ":")
+        normalized_title = title_video.replace("/", ":")
         # Delete dot "."
         normalized_title = normalized_title.replace(".", "")
 
         return normalized_title
 
-    @classmethod
-    def download_video_and_audio(cls, url, quality):
-        video = url.streams.filter(file_extension="mp4", res=quality).first()
-        video.download(filename="video", output_path=".cache/")
-        audio = url.streams.filter(
-            only_audio=True, file_extension="mp4").first()
-        audio.download(filename="audio", output_path=".cache/")
+    def download_video_and_audio(self, quality):
+        try:
+            pytube_object = self.__pytube_object
+            video = pytube_object.streams.filter(file_extension="mp4", res=quality).first()
+            video.download(filename="video", output_path=".cache/")
+            audio = pytube_object.streams.filter(
+                only_audio=True, file_extension="mp4").first()
+            audio.download(filename="audio", output_path=".cache/")
+        except Exception as e:
+            print(self.error_url("Invalid quality"))
+            quit()
 
     @classmethod
     def merge_video_and_audio(cls, title_video):
@@ -98,7 +89,7 @@ class YoutubeDownload:
         audio = ffmpeg.input(f".cache/audio.mp4")
 
         out = ffmpeg.output(
-            video, audio, f"{YoutubeDownload.DOWNLOAD_FOLDER}{title_video}.mp4", vcodec="copy", acodec="aac", strict="experimental")
+            video, audio, f"{Downtube.DOWNLOAD_FOLDER}{title_video}.mp4", vcodec="copy", acodec="aac", strict="experimental")
         out.run()
 
     @classmethod
@@ -143,17 +134,16 @@ def main():
         return 1
 
     if args.video and args.quality is None:
-        video_object = YoutubeDownload((args.url).replace("'", ""))
-        url = YouTube(video_object.get_url())
-        print(YoutubeDownload.error_url(url,"Please type the quality"))
+        video_object = Downtube((args.url).replace("'", ""))
+        print(video_object.error_url("Please type the quality"))
         return 1
 
     if args.video and args.quality:
-        video = YoutubeDownload((args.url).replace("'", ""))
+        video = Downtube((args.url).replace("'", ""))
         video.download_video(args.quality)
 
     if args.audio:
-        audio = YoutubeDownload((args.url).replace("'", ""))
+        audio = Downtube((args.url).replace("'", ""))
         audio.download_audio()
 
 
