@@ -97,6 +97,18 @@ class Downtube:
         os.remove(".cache/video.mp4")
         os.remove(".cache/audio.mp4")
 
+    @classmethod
+    def delete_downtube(cls):
+        confirmation = input("Are you sure to delete Downtube? ")
+
+        if confirmation.lower() == "yes":
+            os.remove(os.path.expanduser("~")+ "/.local/bin")
+            print("Downtube deleted!")
+            quit()
+        else:
+            print("Deletion canceled!")
+            quit()
+
 
 def cli():
     parser = argparse.ArgumentParser(
@@ -114,20 +126,29 @@ def cli():
         help="Download video of url"
     )
     parser.add_argument(
+        "--quality", "-q",
+        type=int,
+        help="Quality of video"
+    )
+    parser.add_argument(
+        "--delete", "-d",
+        action="store_true",
+        help="Delete downtube"
+    )
+    parser.add_argument(
         "url",
         type=str,
         help="Url of video, you must type it beetween quotation marks"
     )
-    parser.add_argument(
-        "--quality", "-q",
-        type=int,
-        help="Quality of video")
 
     return parser.parse_args()
 
 
 def main():
     args = cli()
+
+    if args.delete:
+        Downtube.delete_downtube()
 
     if args.video is False and args.audio is False:
         print("Select one option for to download (--audio or --video)")

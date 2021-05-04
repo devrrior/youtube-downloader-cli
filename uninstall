@@ -1,0 +1,6 @@
+#!/bin/sh
+
+# Delete file
+echo "Uninstalling Downtube..."
+rm ~/.local/bin/downtube
+echo "Successful uninstallation!"

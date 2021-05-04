@@ -1,13 +1,24 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
 # Welcome
+echo "Installing Downtube!"
+
+# Downloading required files
 echo "Cloning files..."
 echo "Cloning repository..."
 git clone https://github.com/devrrior/youtube-downloader-cli/
+echo "Done"
+
 echo "Installing required modules..."
 pip install -r youtube-downloader-cli/requirements.txt
+echo "Done"
+
 echo "Copy script..."
-cp youtube-downloader-cli/downtube /usr/local/bin
-echo "Delete files..."
+cp youtube-downloader-cli/downtube ~/.local/bin/
+echo "Done"
+
+echo "Clean files..."
 rm -rf youtube-downloader-cli/
-echo "That's done!"
+echo "Done"
+
+echo "Installation successful!"
