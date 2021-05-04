@@ -12,6 +12,24 @@ Install In One Command!
 bash <(curl -s https://raw.githubusercontent.com/devrrior/youtube-downloader-cli/master/install)
 ```
 
+Make sure to have ~/.local/bin directory in your $PATH, otherwise your shell won't find the Downtube command.
+
+### Linux
+
+If you have linux, add this line to your ~/.xprofile if you haven't already:
+
+```
+export PATH=$HOME/.local/bin:$PATH
+```
+
+### MacOS
+
+If you have MacOS, add this line to your ~/.zshrc if you haven't already:
+
+```
+export PATH="$HOME/.local/bin:$PATH"
+```
+
 ## Usage
 
 ### Arguments
