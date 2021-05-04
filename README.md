@@ -47,10 +47,11 @@ bash <(curl -s https://raw.githubusercontent.com/devrrior/youtube-downloader-cli
 
 ## Uninstall
 
-- For uninstall Downtube, just run this command:
-  ```
-  bash <(curl -s https://raw.githubusercontent.com/devrrior/youtube-downloader-cli/master/uninstall)
-  ```
+For uninstall Downtube, just run this command:
+
+```
+bash <(curl -s https://raw.githubusercontent.com/devrrior/youtube-downloader-cli/master/uninstall)
+```
 
 ## TODO
 
