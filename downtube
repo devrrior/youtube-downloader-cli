@@ -8,7 +8,7 @@ from gi.repository import GLib
 
 
 class Downtube:
-    DOWNLOAD_FOLDER = GLib.get_user_special_dir(GLib.UserDirectory.DIRECTORY_DOWNLOAD)
+    DOWNLOAD_FOLDER = f"{GLib.get_user_special_dir(GLib.UserDirectory.DIRECTORY_DOWNLOAD)}/"
     def __init__(self, url):
         try:
             self.__pytube_object = YouTube(url)
@@ -128,9 +128,6 @@ def cli():
 
 def main():
     args = cli()
-
-    if args.delete:
-        Downtube.delete_downtube()
 
     if args.video is False and args.audio is False:
         print("Select one option for to download (--audio or --video)")
