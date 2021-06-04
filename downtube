@@ -23,8 +23,8 @@ class Downtube:
         title_video = self.normalize_video_title()
         audio = pytube_object.streams.filter(only_audio=True, file_extension="mp4").first()
         audio.download(Downtube.DOWNLOAD_FOLDER)
-        os.rename(Downtube.DOWNLOAD_FOLDER + title_video + r".mp4",
-                  Downtube.DOWNLOAD_FOLDER + title_video + r".mp3")
+        os.rename(f"{Downtube.DOWNLOAD_FOLDER}{title_video}.mp4",
+                  f"{Downtube.DOWNLOAD_FOLDER}{title_video}.mp3")
         print("Successfuly download!")
         return 0
 
@@ -63,6 +63,7 @@ class Downtube:
 
     def normalize_video_title(self):
         pytube_object = self.__pytube_object
+        print(pytube_object.title)
         title_video = pytube_object.title
         # Change /
         normalized_title = title_video.replace("/", ":")
