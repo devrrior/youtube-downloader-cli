@@ -21,8 +21,9 @@ class Downtube:
     def download_audio(self):
         pytube_object = self.__pytube_object
         title_video = self.normalize_video_title()
+        print(title_video,pytube_object.title)
         audio = pytube_object.streams.filter(only_audio=True, file_extension="mp4").first()
-        audio.download(Downtube.DOWNLOAD_FOLDER)
+        audio.download(Downtube.DOWNLOAD_FOLDER,filename=title_video)
         os.rename(f"{Downtube.DOWNLOAD_FOLDER}{title_video}.mp4",
                   f"{Downtube.DOWNLOAD_FOLDER}{title_video}.mp3")
         print("Successfuly download!")
